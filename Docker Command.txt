@@ -1,0 +1,43 @@
+#Docker Command 
+
+from alpine
+run apk update && apk add git
+workdir /app 
+
+------------------------------------
+#Docker Command CLI
+
+-Docker build -t gitcontainer .
+-Docker run -it gitcontainer
+
+# To check branches -open git bash on folder  
+git branch
+git branch -r
+git branch -a
+
+---------------------------------------
+#create new html folder in local repo
+
+# create new file in vs code
+index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+<h1>Docker Hub</h1>
+
+</body>
+</html>
+-------------------------------
+# create new Dockerfile same
+from nginx
+copy index.html /user/share/nginx/html
+
+# Open terminal
+Docker build -t htmlcontainer . 
+
+# to rename container 
+Docker run -it -d -p 8081:80 --name htmlcontainer 

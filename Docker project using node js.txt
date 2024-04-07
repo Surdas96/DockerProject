@@ -1,0 +1,156 @@
+# Docker project using node js-Webapp 
+# Install node js
+# Install vs code
+-------------------------------------------------------------------------------------
+# Open VS code 
+
+-Create folder in Local system (Any name)
+-Open folder in vs code
+-Open terminal
+-check node js install or not
+
+node -v (Command for check node version)
+
+- We want to create react base application in folder
+
+npx create-react-app testapp (test app is name of project any name)
+
+( NPX stands for Node Package eXecute. It is simply an NPM package runner. It allows developers to execute any Javascript Package available on the NPM registry without even installing it.)
+
+If above commnad showing error then add below commands
+
+npm install -g create-react-app  (npm is a package installer)
+then 
+npx create-react-app testapp
+
+after completing testapp folder will be created.
+
+-Now run and start 
+
+cd testapp  (change directory to testapp)
+npm start   ( to start )
+
+-it will ask permission click on allow - react base app will run on web browser -done
+- To stop project ctrl c and Y enter.
+--------------------------------------------------------------------------------------------
+# Now create docker file
+
+-delete node_modules (bcz of size using npm install we can retirve later)  
+
+- create new dockerfile in testapp folder 
+
+(- Go to extension search docker and install it will help)
+
+Write in Dockerfile
+
+FROM node:20  --(to run application we need a base so use node/base image and :20 is a version)
+WORKDIR /myapp  --(create folder in container name myapp)
+Copy . .   --(all files from current directly copy to working directory/myapp)
+RUN npm install   --(To run under container)
+CMD ["npm","start"]  --(It will use when after making image to start)
+----------------------------------------------------------------------------
+# Now Create Docekr image
+
+-All commands run on termianl 
+
+Docker build .      (. means in current location my docker file is present ) 
+
+-Enter  (docker daemon is not running error occur then go 1st open Docker desktop app and again run command)
+
+- to check created image
+
+Docker image ls (here you can check image id )
+-----------------------------------------------------------------------------------
+# Run and manage containers
+
+Docker run paste image id  (application run under Container)
+
+-To stop running application 
+click on + open new terminal
+
+cd testapp (current folder)
+Docker ps   (Process status of running container..there you can see container nae,)
+Docker stop paste container name  (to stop)
+Docekr ps   (check status)
+
+-To run or access the application outside container 
+
+Docker run -p 3000:3000 image id  
+
+-To detach termianl
+ 
+Docker run -d -p 3000:3000 image id  
+
+- To create multiple container under single image
+
+Docker run -d -p 3001:3000 image id  
+Docker run -d -p 3002:3000 image id  (application run in same port 3000 bcz containers are isolated i will not affect all apps can run on different tab )
+
+-To remove container you can delete from Docker desktop or command
+Docker rm container name
+
+-To detach and run container but when you stop using it will remove for that
+Docker run -d --rm -p 3001:3000 image name
+
+- To give container any name
+Docker run -d --rm --name "mycontainer" -p 3001:3000 image name
+-----------------------------------------------------------------------------
+# Manage images
+
+-To give image name/tag
+
+Docker build -t mywebapp:01 .
+Docker image ls
+
+-To Delete image
+
+Docker rmi image id or image name  (First stop container associated with image )
+-----------------------------------------------------------------------------------
+# Update in project or code
+
+-change anythis in code and save
+-create another image
+
+Docker build -t mywebapp:02 . 
+Docker run -d --rm --name "mycontainer" -p 3001:3000 mywebapp:02 (so changes save on new image name mywebapp:02 )
+
+if you run previous version image so it will not reflect any changes. to check change port and conatiner name and run.
+-----------------------------------------------------------------------------------------------
+# Push image in docker hub
+
+-create account in docker hub
+-create repository
+-Go to vs code terminal open project file
+-cd folder name
+-run command docker login
+-copy docker push surdas96/dockerproject:tagname from docker hub
+-Open terminal type command
+ Docker build -t surdas96/dockerproject:tagname .  - (keep tagname any or add version any)
+- Docekr image   (check image)
+-To push docker image
+Docker push surdas96/dockerproject:01  -(Your image is now pushed to docker hub)
+
+-How to push existing image
+-change existing image name with reference to surdas96/dockerproject
+-To change write
+Docker tag mywebapp:01 (existing image name) surdas96/dockerproject:02 (02 is any version as per you)
+- To check Docekr image ls
+-To push image write
+Docker push surdas96/dockerproject:02
+----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
